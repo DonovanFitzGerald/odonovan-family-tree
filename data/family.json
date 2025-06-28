@@ -1,0 +1,48 @@
+{
+	"id": "root",
+	"name": "Cornelius O'Donovan",
+	"spouse": null,
+	"children": [
+		{
+			"name": "John O'Donovan",
+			"spouse": "Ellen O'Neill",
+			"children": [
+				{
+					"name": "Cornelius (Con)",
+					"spouse": "Agnes Monks",
+					"children": [
+						{
+							"name": "Sean",
+							"spouse": "Annette McEvoy",
+							"children": [
+								{
+									"name": "Neil",
+									"spouse": "Andria O'Neill",
+									"children": [
+										{ "name": "Andrew" },
+										{ "name": "Amy" },
+										{ "name": "Julie" }
+									]
+								},
+								{ "name": "Eoin" },
+								{ "name": "Ronan" },
+								{ "name": "Dermod" },
+								{ "name": "Fionnbarr (Barry)" },
+								{ "name": "Eveline" },
+								{ "name": "Shane" }
+							]
+						},
+						{ "name": "Ellen (Nell)" },
+						{ "name": "Maeve" },
+						{ "name": "Jim" },
+						{ "name": "Conn" },
+						{ "name": "Desmond" }
+					]
+				},
+				{ "name": "Margaret" },
+				{ "name": "Peter" },
+				{ "name": "Sean" }
+			]
+		}
+	]
+}
