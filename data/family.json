@@ -1,47 +1,242 @@
 {
-	"id": "root",
-	"name": "Cornelius O'Donovan",
-	"spouse": null,
+	"first_name": "Cornelius",
+	"nickname": "",
+	"last_name": "O'Donovan",
+	"spouse": "",
+	"birth": { "date": "", "location": "" },
+	"death": { "date": "", "location": "" },
+	"tree_color": "",
 	"children": [
 		{
-			"name": "John O'Donovan",
+			"first_name": "John",
+			"nickname": "",
+			"last_name": "O'Donovan",
 			"spouse": "Ellen O'Neill",
+			"birth": { "date": "", "location": "" },
+			"death": { "date": "", "location": "" },
+			"tree_color": "",
 			"children": [
 				{
-					"name": "Cornelius (Con)",
+					"first_name": "Cornelius",
+					"nickname": "Con",
+					"last_name": "O'Donovan",
 					"spouse": "Agnes Monks",
+					"birth": { "date": "", "location": "" },
+					"death": { "date": "", "location": "" },
+					"tree_color": "",
 					"children": [
 						{
-							"name": "Sean",
+							"first_name": "Sean",
+							"nickname": "",
+							"last_name": "O'Donovan",
 							"spouse": "Annette McEvoy",
+							"birth": { "date": "", "location": "" },
+							"death": { "date": "", "location": "" },
+							"tree_color": "",
 							"children": [
 								{
-									"name": "Neil",
+									"first_name": "Neil",
+									"nickname": "",
+									"last_name": "O'Donovan",
 									"spouse": "Andria O'Neill",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
 									"children": [
-										{ "name": "Andrew" },
-										{ "name": "Amy" },
-										{ "name": "Julie" }
+										{
+											"first_name": "Andrew",
+											"nickname": "",
+											"last_name": "O'Donovan",
+											"spouse": "",
+											"birth": {
+												"date": "",
+												"location": ""
+											},
+											"death": {
+												"date": "",
+												"location": ""
+											},
+											"tree_color": "",
+											"children": []
+										},
+										{
+											"first_name": "Amy",
+											"nickname": "",
+											"last_name": "O'Donovan",
+											"spouse": "",
+											"birth": {
+												"date": "",
+												"location": ""
+											},
+											"death": {
+												"date": "",
+												"location": ""
+											},
+											"tree_color": "",
+											"children": []
+										},
+										{
+											"first_name": "Julie",
+											"nickname": "",
+											"last_name": "O'Donovan",
+											"spouse": "",
+											"birth": {
+												"date": "",
+												"location": ""
+											},
+											"death": {
+												"date": "",
+												"location": ""
+											},
+											"tree_color": "",
+											"children": []
+										}
 									]
 								},
-								{ "name": "Eoin" },
-								{ "name": "Ronan" },
-								{ "name": "Dermod" },
-								{ "name": "Fionnbarr (Barry)" },
-								{ "name": "Eveline" },
-								{ "name": "Shane" }
+								{
+									"first_name": "Eoin",
+									"nickname": "",
+									"last_name": "O'Donovan",
+									"spouse": "",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
+									"children": []
+								},
+								{
+									"first_name": "Ronan",
+									"nickname": "",
+									"last_name": "O'Donovan",
+									"spouse": "",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
+									"children": []
+								},
+								{
+									"first_name": "Dermod",
+									"nickname": "",
+									"last_name": "O'Donovan",
+									"spouse": "",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
+									"children": []
+								},
+								{
+									"first_name": "Fionnbarr",
+									"nickname": "Barry",
+									"last_name": "O'Donovan",
+									"spouse": "",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
+									"children": []
+								},
+								{
+									"first_name": "Eveline",
+									"nickname": "",
+									"last_name": "O'Donovan",
+									"spouse": "",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
+									"children": []
+								},
+								{
+									"first_name": "Shane",
+									"nickname": "",
+									"last_name": "O'Donovan",
+									"spouse": "",
+									"birth": { "date": "", "location": "" },
+									"death": { "date": "", "location": "" },
+									"tree_color": "",
+									"children": []
+								}
 							]
 						},
-						{ "name": "Ellen (Nell)" },
-						{ "name": "Maeve" },
-						{ "name": "Jim" },
-						{ "name": "Conn" },
-						{ "name": "Desmond" }
+						{
+							"first_name": "Ellen",
+							"nickname": "Nell",
+							"last_name": "O'Donovan",
+							"spouse": "",
+							"birth": { "date": "", "location": "" },
+							"death": { "date": "", "location": "" },
+							"tree_color": "",
+							"children": []
+						},
+						{
+							"first_name": "Maeve",
+							"nickname": "",
+							"last_name": "O'Donovan",
+							"spouse": "",
+							"birth": { "date": "", "location": "" },
+							"death": { "date": "", "location": "" },
+							"tree_color": "",
+							"children": []
+						},
+						{
+							"first_name": "Jim",
+							"nickname": "",
+							"last_name": "O'Donovan",
+							"spouse": "",
+							"birth": { "date": "", "location": "" },
+							"death": { "date": "", "location": "" },
+							"tree_color": "",
+							"children": []
+						},
+						{
+							"first_name": "Conn",
+							"nickname": "",
+							"last_name": "O'Donovan",
+							"spouse": "",
+							"birth": { "date": "", "location": "" },
+							"death": { "date": "", "location": "" },
+							"tree_color": "",
+							"children": []
+						},
+						{
+							"first_name": "Desmond",
+							"nickname": "",
+							"last_name": "O'Donovan",
+							"spouse": "",
+							"birth": { "date": "", "location": "" },
+							"death": { "date": "", "location": "" },
+							"tree_color": "",
+							"children": []
+						}
 					]
 				},
-				{ "name": "Margaret" },
-				{ "name": "Peter" },
-				{ "name": "Sean" }
+				{
+					"first_name": "Margaret",
+					"nickname": "",
+					"last_name": "O'Donovan",
+					"spouse": "",
+					"birth": { "date": "", "location": "" },
+					"death": { "date": "", "location": "" },
+					"tree_color": "",
+					"children": []
+				},
+				{
+					"first_name": "Peter",
+					"nickname": "",
+					"last_name": "O'Donovan",
+					"spouse": "",
+					"birth": { "date": "", "location": "" },
+					"death": { "date": "", "location": "" },
+					"tree_color": "",
+					"children": []
+				},
+				{
+					"first_name": "Sean",
+					"nickname": "",
+					"last_name": "O'Donovan",
+					"spouse": "",
+					"birth": { "date": "", "location": "" },
+					"death": { "date": "", "location": "" },
+					"tree_color": "",
+					"children": []
+				}
 			]
 		}
 	]

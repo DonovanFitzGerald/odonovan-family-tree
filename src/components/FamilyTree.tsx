@@ -89,12 +89,16 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 			treeState.highlightedAncestors.has(person.id) ||
 			treeState.highlightedDescendants.has(person.id);
 
+		// Show spouse only if this person or their ancestors/descendants are selected
+		const showSpouse = isSelected || isHighlighted;
+
 		nodes.push(
 			<TreeNode
 				key={person.id}
 				person={person}
 				isSelected={isSelected}
 				isHighlighted={isHighlighted}
+				showSpouse={showSpouse}
 				onPersonClick={handlePersonClick}
 				onPersonHover={handlePersonHover}
 				onPersonLeave={handlePersonLeave}

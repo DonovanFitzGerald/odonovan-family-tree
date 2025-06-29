@@ -8,6 +8,7 @@ interface TreeNodeProps {
 	person: PositionedPerson;
 	isSelected: boolean;
 	isHighlighted: boolean;
+	showSpouse: boolean;
 	onPersonClick: (personId: string) => void;
 	onPersonHover: (personId: string, event: React.MouseEvent) => void;
 	onPersonLeave: () => void;
@@ -17,11 +18,12 @@ export default function TreeNode({
 	person,
 	isSelected,
 	isHighlighted,
+	showSpouse,
 	onPersonClick,
 	onPersonHover,
 	onPersonLeave,
 }: TreeNodeProps) {
-	const displayName = getDisplayName(person);
+	const displayName = getDisplayName(person, showSpouse);
 
 	// Generate colors based on generation for visual variety
 	const getNodeColors = (generation: number) => {
@@ -49,11 +51,11 @@ export default function TreeNode({
 		>
 			<div
 				className={clsx(
-					"rounded-lg shadow-md px-3 py-2 border-2 inline-block",
-					"text-center text-sm font-medium",
+					"rounded-lg shadow-md px-1 py-1 border-2 inline-block",
+					"text-center text-xs font-medium",
 					"text-gray-800 dark:text-white",
 					"transition-all duration-200",
-					"max-w-xs",
+					"whitespace-nowrap",
 					getNodeColors(person.generation),
 					{
 						"ring-4 ring-yellow-400 dark:ring-yellow-300 scale-110":
@@ -64,9 +66,11 @@ export default function TreeNode({
 					}
 				)}
 			>
-				<div className="break-words leading-tight">{displayName}</div>
-				{person.spouse && (
-					<div className="text-xs opacity-75 mt-1">Married</div>
+				<div className="leading-tight">{displayName}</div>
+				{showSpouse && person.spouse && (
+					<div className="text-xs opacity-75 mt-0.5">
+						& {person.spouse}
+					</div>
 				)}
 			</div>
 		</div>

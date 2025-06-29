@@ -12,7 +12,9 @@ async function getFamilyData(): Promise<Person> {
 		console.error("Error loading family data:", error);
 		// Return a fallback minimal tree
 		return {
-			name: "Family Data Not Found",
+			first_name: "Family Data",
+			nickname: "",
+			last_name: "Not Found",
 			children: [],
 		};
 	}
