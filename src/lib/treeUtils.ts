@@ -1,252 +1,133 @@
-import { Person, PositionedPerson, TreeDimensions } from "./types";
+import { Person } from "./types";
 
 /**
- * Generate a recursive ID based on node structure and position
+ * Compare two index paths safely.
  */
-export function generateId(
+export function isIndexEqual(
+	a?: number[] | null,
+	b?: number[] | null
+): boolean {
+	if (!a || !b) return false;
+	if (a.length !== b.length) return false;
+	return a.every((val, idx) => val === b[idx]);
+}
+
+/**
+ * Assign a stable index to every node in the tree.
+ * The root is always [0], then each child appends its
+ * sibling position to its parent's index.
+ */
+export function assignIndex(
 	person: Person,
-	parentId: string = "",
-	siblingIndex: number = 0
-): string {
-	if (parentId === "") {
-		return "root";
-	}
-	return `${parentId}-${siblingIndex}`;
-}
-
-/**
- * Format display name for a person
- */
-export function formatPersonName(person: Person): string {
-	const parts: string[] = [];
-
-	if (person.first_name) {
-		parts.push(person.first_name);
-	}
-
-	if (person.nickname) {
-		parts.push(`"${person.nickname}"`);
-	}
-
-	if (person.last_name) {
-		parts.push(`'${person.last_name}`);
-	}
-
-	return parts.join(" ");
-}
-
-/**
- * Calculate tree dimensions based on the family data
- */
-export function calculateTreeDimensions(rootPerson: Person): TreeDimensions {
-	const maxGeneration = getMaxGeneration(rootPerson);
-	const maxSiblingsInGeneration = getMaxSiblingsInGeneration(rootPerson);
+	parentIndex: number[] = [],
+	siblingIdx = 0
+): Person {
+	const currentIndex =
+		parentIndex.length === 0 ? [0] : [...parentIndex, siblingIdx];
 
 	return {
-		width: Math.max(800, maxSiblingsInGeneration * 120 + 100),
-		height: (maxGeneration + 1) * 120 + 100,
-		generationHeight: 120,
-		nodeWidth: 100,
-		nodeHeight: 40,
-		horizontalSpacing: 120,
-		verticalSpacing: 120,
-	};
-}
-
-/**
- * Get the maximum generation depth
- */
-function getMaxGeneration(person: Person, currentGeneration = 0): number {
-	if (!person.children || person.children.length === 0) {
-		return currentGeneration;
-	}
-
-	return Math.max(
-		...person.children.map((child) =>
-			getMaxGeneration(child, currentGeneration + 1)
-		)
-	);
-}
-
-/**
- * Get the maximum number of siblings in any generation
- */
-function getMaxSiblingsInGeneration(person: Person): number {
-	const generationCounts: number[] = [];
-
-	function countSiblingsAtGeneration(p: Person, generation: number) {
-		if (!generationCounts[generation]) {
-			generationCounts[generation] = 0;
-		}
-		generationCounts[generation]++;
-
-		if (p.children) {
-			p.children.forEach((child) =>
-				countSiblingsAtGeneration(child, generation + 1)
-			);
-		}
-	}
-
-	countSiblingsAtGeneration(person, 0);
-	return Math.max(...generationCounts);
-}
-
-/**
- * Position all nodes in the tree with proper layout
- */
-export function positionTreeNodes(
-	rootPerson: Person,
-	dimensions: TreeDimensions
-): PositionedPerson {
-	// First pass: assign generations and IDs
-	const withGenerations = assignGenerations(rootPerson, 0);
-
-	// Second pass: calculate positions
-	const positioned = calculatePositions(withGenerations, dimensions);
-
-	return positioned;
-}
-
-/**
- * Assign generation numbers and IDs to all nodes
- */
-function assignGenerations(
-	person: Person,
-	generation: number,
-	parentId: string = "",
-	siblingIndex: number = 0
-): PositionedPerson {
-	const id = person.id || generateId(person, parentId, siblingIndex);
-
-	const positioned: PositionedPerson = {
 		...person,
-		id,
-		generation,
-		x: 0, // Will be calculated later
-		y: generation * 120 + 50,
-		children: person.children?.map((child, index) =>
-			assignGenerations(child, generation + 1, id, index)
+		index: currentIndex,
+		children: (person.children ?? []).map((child, idx) =>
+			assignIndex(
+				{
+					...child,
+					background_color:
+						child.text_color === ""
+							? person.background_color
+							: child.background_color,
+					text_color:
+						child.text_color === ""
+							? person.text_color
+							: child.text_color,
+				},
+				currentIndex,
+				idx
+			)
 		),
 	};
-
-	return positioned;
 }
 
 /**
- * Calculate X positions for all nodes
+ * Depth‑first lookup by index path.
  */
-function calculatePositions(
-	person: PositionedPerson,
-	dimensions: TreeDimensions,
-	siblingIndex = 0,
-	totalSiblings = 1
-): PositionedPerson {
-	// Calculate positions for children first (bottom-up approach)
-	if (person.children && person.children.length > 0) {
-		person.children = person.children.map((child, index) =>
-			calculatePositions(
-				child,
-				dimensions,
-				index,
-				person.children!.length
-			)
-		);
+export function findPersonByIndex(
+	root: Person,
+	path: number[]
+): Person | undefined {
+	if (!path?.length || path[0] !== 0) return undefined;
 
-		// Position parent centered above children
-		const childrenXPositions = person.children.map((child) => child.x);
-		const minX = Math.min(...childrenXPositions);
-		const maxX = Math.max(...childrenXPositions);
-		person.x = (minX + maxX) / 2;
-	} else {
-		// Leaf node: position based on sibling index
-		const totalWidth = (totalSiblings - 1) * dimensions.horizontalSpacing;
-		const startX = dimensions.width / 2 - totalWidth / 2;
-		person.x = startX + siblingIndex * dimensions.horizontalSpacing;
+	let node: Person | undefined = root;
+	for (let i = 1; i < path.length; i++) {
+		const idx = path[i];
+		if (!node?.children || idx < 0 || idx >= node.children.length) return;
+		node = node.children[idx];
 	}
-
-	return person;
+	return node;
 }
 
 /**
- * Get all ancestors of a person
+ * All ancestor paths for a given path, excluding the node itself.
+ * e.g. [0,2,1] ➔ [[0], [0,2]]
  */
-export function getAncestors(
-	personId: string,
-	rootPerson: PositionedPerson,
-	ancestors: Set<string> = new Set()
-): Set<string> {
-	function findAncestorsRecursive(
-		current: PositionedPerson,
-		targetId: string
-	): boolean {
-		if (current.id === targetId) {
-			return true;
-		}
-
-		if (current.children) {
-			for (const child of current.children) {
-				if (findAncestorsRecursive(child, targetId)) {
-					ancestors.add(current.id);
-					return true;
-				}
-			}
-		}
-
-		return false;
+export function getHighlightedAncestors(path: number[]): number[][] {
+	const ancestors: number[][] = [];
+	for (let i = 1; i < path.length; i++) {
+		ancestors.push(path.slice(0, i));
 	}
-
-	findAncestorsRecursive(rootPerson, personId);
 	return ancestors;
 }
 
-/**
- * Get all descendants of a person
- */
-export function getDescendants(
-	person: PositionedPerson,
-	descendants: Set<string> = new Set()
-): Set<string> {
-	if (person.children) {
-		person.children.forEach((child) => {
-			descendants.add(child.id);
-			getDescendants(child, descendants);
-		});
-	}
+export function getDescendants(person: Person): number[][] {
+	const result: number[][] = [];
 
-	return descendants;
-}
-
-/**
- * Find a person by ID in the tree
- */
-export function findPersonById(
-	rootPerson: PositionedPerson,
-	targetId: string
-): PositionedPerson | null {
-	if (rootPerson.id === targetId) {
-		return rootPerson;
-	}
-
-	if (rootPerson.children) {
-		for (const child of rootPerson.children) {
-			const found = findPersonById(child, targetId);
-			if (found) return found;
+	const walk = (p: Person) => {
+		for (const child of p.children ?? []) {
+			result.push(child.index);
+			walk(child);
 		}
-	}
+	};
 
-	return null;
+	walk(person);
+	return result;
 }
 
 /**
- * Format display name for a person (including spouse if present)
+ * Collect every descendant index path of a node.
  */
-export function getDisplayName(
-	person: Person,
-	showSpouse: boolean = false
-): string {
-	const personName = formatPersonName(person);
-	if (showSpouse && person.spouse) {
-		return `${personName} and ${person.spouse}`;
-	}
-	return personName;
+export function getHighlightedDescendants(person: Person): number[][] {
+	const result: number[][] = [];
+
+	const walk = (p: Person) => {
+		if (!p.children?.length) return;
+
+		let firstChild = p.children[0];
+		for (const child of p.children) {
+			const last = child.index[child.index.length - 1];
+			const currentMin = firstChild.index[firstChild.index.length - 1];
+			if (last < currentMin) firstChild = child;
+		}
+
+		result.push(firstChild.index);
+		walk(firstChild);
+	};
+
+	walk(person);
+	return result;
+}
+
+/**
+ * Utility helpers for UI.
+ */
+export function formatPersonName(person: Person): string {
+	return `${person.first_name ?? ""} ${
+		person.nickname ? `(${person.nickname}) ` : ""
+	}${person.last_name ?? ""}`.trim();
+}
+
+export function getDisplayName(person: Person, personActive = false): string {
+	const name = formatPersonName(person);
+	return personActive && person.spouse
+		? `${name} and ${person.spouse}`
+		: name;
 }

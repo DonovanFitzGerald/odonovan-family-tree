@@ -5,7 +5,8 @@
 	"spouse": "",
 	"birth": { "date": "", "location": "" },
 	"death": { "date": "", "location": "" },
-	"tree_color": "",
+	"background_color": "white",
+	"text_color": "black",
 	"children": [
 		{
 			"first_name": "John",
@@ -14,7 +15,8 @@
 			"spouse": "Ellen O'Neill",
 			"birth": { "date": "", "location": "" },
 			"death": { "date": "", "location": "" },
-			"tree_color": "",
+			"background_color": "",
+			"text_color": "",
 			"children": [
 				{
 					"first_name": "Cornelius",
@@ -23,7 +25,8 @@
 					"spouse": "Agnes Monks",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
-					"tree_color": "",
+					"background_color": "emerald-500",
+					"text_color": "",
 					"children": [
 						{
 							"first_name": "Sean",
@@ -32,7 +35,8 @@
 							"spouse": "Annette McEvoy",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
-							"tree_color": "",
+							"background_color": "",
+							"text_color": "",
 							"children": [
 								{
 									"first_name": "Neil",
@@ -41,7 +45,8 @@
 									"spouse": "Andria O'Neill",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": [
 										{
 											"first_name": "Andrew",
@@ -56,7 +61,8 @@
 												"date": "",
 												"location": ""
 											},
-											"tree_color": "",
+											"background_color": "",
+											"text_color": "",
 											"children": []
 										},
 										{
@@ -72,7 +78,8 @@
 												"date": "",
 												"location": ""
 											},
-											"tree_color": "",
+											"background_color": "",
+											"text_color": "",
 											"children": []
 										},
 										{
@@ -88,7 +95,8 @@
 												"date": "",
 												"location": ""
 											},
-											"tree_color": "",
+											"background_color": "",
+											"text_color": "",
 											"children": []
 										}
 									]
@@ -100,7 +108,8 @@
 									"spouse": "",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": []
 								},
 								{
@@ -110,7 +119,8 @@
 									"spouse": "",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": []
 								},
 								{
@@ -120,7 +130,8 @@
 									"spouse": "",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": []
 								},
 								{
@@ -130,7 +141,8 @@
 									"spouse": "",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": []
 								},
 								{
@@ -140,7 +152,8 @@
 									"spouse": "",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": []
 								},
 								{
@@ -150,7 +163,8 @@
 									"spouse": "",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
-									"tree_color": "",
+									"background_color": "",
+									"text_color": "",
 									"children": []
 								}
 							]
@@ -162,7 +176,8 @@
 							"spouse": "",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
-							"tree_color": "",
+							"background_color": "",
+							"text_color": "",
 							"children": []
 						},
 						{
@@ -172,7 +187,8 @@
 							"spouse": "",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
-							"tree_color": "",
+							"background_color": "",
+							"text_color": "",
 							"children": []
 						},
 						{
@@ -182,7 +198,8 @@
 							"spouse": "",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
-							"tree_color": "",
+							"background_color": "",
+							"text_color": "",
 							"children": []
 						},
 						{
@@ -192,7 +209,8 @@
 							"spouse": "",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
-							"tree_color": "",
+							"background_color": "",
+							"text_color": "",
 							"children": []
 						},
 						{
@@ -202,7 +220,8 @@
 							"spouse": "",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
-							"tree_color": "",
+							"background_color": "",
+							"text_color": "",
 							"children": []
 						}
 					]
@@ -214,7 +233,8 @@
 					"spouse": "",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
-					"tree_color": "",
+					"background_color": "",
+					"text_color": "",
 					"children": []
 				},
 				{
@@ -224,7 +244,8 @@
 					"spouse": "",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
-					"tree_color": "",
+					"background_color": "",
+					"text_color": "",
 					"children": []
 				},
 				{
@@ -234,7 +255,8 @@
 					"spouse": "",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
-					"tree_color": "",
+					"background_color": "",
+					"text_color": "",
 					"children": []
 				}
 			]

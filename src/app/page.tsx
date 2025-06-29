@@ -24,7 +24,7 @@ export default async function Home() {
 	const familyData = await getFamilyData();
 
 	return (
-		<main className="w-full h-screen">
+		<main className="w-full h-screen flex align-center justify-center">
 			<FamilyTree familyData={familyData} />
 		</main>
 	);

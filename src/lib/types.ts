@@ -1,5 +1,5 @@
 export interface Person {
-	id?: string;
+	index?: number[];
 	first_name: string;
 	nickname: string;
 	last_name: string;
@@ -12,32 +12,16 @@ export interface Person {
 		date: string;
 		location: string;
 	};
-	tree_color?: string;
+	background_color?: string;
+	text_color?: string;
 	children?: Person[];
 }
 
-export interface PositionedPerson extends Person {
-	x: number;
-	y: number;
-	generation: number;
-	id: string;
-	children?: PositionedPerson[];
-}
-
-export interface TreeDimensions {
-	width: number;
-	height: number;
-	generationHeight: number;
-	nodeWidth: number;
-	nodeHeight: number;
-	horizontalSpacing: number;
-	verticalSpacing: number;
-}
-
 export interface TreeState {
-	selectedPersonId: string | null;
-	highlightedAncestors: Set<string>;
-	highlightedDescendants: Set<string>;
+	activePersonIndex: number[] | null;
+	highlightedAncestors: number[][] | [];
+	highlightedDescendants: number[][] | [];
+	highlightedPersons: number[][] | [];
 	showTooltip: boolean;
 	tooltipPosition: { x: number; y: number };
 }

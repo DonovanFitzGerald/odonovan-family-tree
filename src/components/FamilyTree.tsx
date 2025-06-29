@@ -1,17 +1,16 @@
 "use client";
-
-import { useState, useEffect, useRef } from "react";
-import { Person, PositionedPerson, TreeState } from "@/lib/types";
+import React, { useState, useRef, useMemo } from "react";
+import { Person, TreeState } from "@/lib/types";
 import {
-	positionTreeNodes,
-	calculateTreeDimensions,
-	getAncestors,
-	getDescendants,
-	findPersonById,
+	assignIndex,
+	isIndexEqual,
 	getDisplayName,
+	findPersonByIndex,
+	getHighlightedAncestors,
+	getHighlightedDescendants,
+	getDescendants,
 } from "@/lib/treeUtils";
 import TreeNode from "./TreeNode";
-import TreeConnectors from "./TreeConnectors";
 
 interface FamilyTreeProps {
 	familyData: Person;
@@ -19,36 +18,45 @@ interface FamilyTreeProps {
 
 export default function FamilyTree({ familyData }: FamilyTreeProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const [treeState, setTreeState] = useState<TreeState>({
-		selectedPersonId: null,
-		highlightedAncestors: new Set(),
-		highlightedDescendants: new Set(),
+
+	const indexedTree = useMemo(() => assignIndex(familyData), [familyData]);
+
+	console.log(indexedTree);
+
+	const rootIndex = indexedTree.index!; // always [0]
+	const initialAncestors = getHighlightedAncestors(rootIndex); // [] for root
+	const initialDescendants = getHighlightedDescendants(indexedTree);
+
+	const [treeState, setTreeState] = useState<TreeState>(() => ({
+		activePersonIndex: rootIndex,
+		highlightedAncestors: initialAncestors,
+		highlightedDescendants: initialDescendants,
+		highlightedPersons: [
+			...initialAncestors,
+			rootIndex,
+			...initialDescendants,
+		],
 		showTooltip: false,
 		tooltipPosition: { x: 0, y: 0 },
-	});
+	}));
 
-	// Calculate tree layout
-	const dimensions = calculateTreeDimensions(familyData);
-	const positionedTree = positionTreeNodes(familyData, dimensions);
-
-	// Handle person selection
-	const handlePersonClick = (personId: string) => {
-		const person = findPersonById(positionedTree, personId);
+	const handlePersonClick = (personIndex: number[]) => {
+		const person = findPersonByIndex(indexedTree, personIndex);
 		if (!person) return;
 
-		const ancestors = getAncestors(personId, positionedTree);
-		const descendants = getDescendants(person);
+		const ancestors = getHighlightedAncestors(personIndex);
+		const descendants = getHighlightedDescendants(person);
 
 		setTreeState((prev) => ({
 			...prev,
-			selectedPersonId: personId,
+			activePersonIndex: personIndex,
 			highlightedAncestors: ancestors,
 			highlightedDescendants: descendants,
+			highlightedPersons: [...ancestors, personIndex, ...descendants],
 		}));
 	};
 
-	// Handle person hover
-	const handlePersonHover = (personId: string, event: React.MouseEvent) => {
+	const handlePersonHover = (_: number[], event: React.MouseEvent) => {
 		const rect = containerRef.current?.getBoundingClientRect();
 		if (!rect) return;
 
@@ -62,68 +70,77 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 		}));
 	};
 
-	// Handle person leave
-	const handlePersonLeave = () => {
+	const handlePersonLeave = () =>
+		setTreeState((prev) => ({ ...prev, showTooltip: false }));
+
+	const clearSelection = () =>
 		setTreeState((prev) => ({
 			...prev,
-			showTooltip: false,
+			activePersonIndex: null,
+			highlightedAncestors: [],
+			highlightedDescendants: [],
+			highlightedPersons: [],
 		}));
-	};
 
-	// Clear selection
-	const clearSelection = () => {
-		setTreeState((prev) => ({
-			...prev,
-			selectedPersonId: null,
-			highlightedAncestors: new Set(),
-			highlightedDescendants: new Set(),
-		}));
-	};
+	const renderTreeRow = (siblings: Person[]): React.ReactElement => (
+		<div
+			key={`row-${siblings.map((p) => p.index!.join("-"))!.join("|")}`}
+			className="grid grid-flow-col auto-cols-max"
+		>
+			{siblings.map((person) => {
+				const isHighlighted = treeState.highlightedPersons.some(
+					(path) => isIndexEqual(path, person.index)
+				);
+				const isSelected = isIndexEqual(
+					person.index,
+					treeState.activePersonIndex
+				);
 
-	// Render all tree nodes recursively
-	const renderTreeNodes = (person: PositionedPerson): JSX.Element[] => {
-		const nodes: JSX.Element[] = [];
+				return (
+					<TreeNode
+						key={person.index!.join("-")}
+						person={person}
+						isSelected={isSelected}
+						isHighlighted={isHighlighted}
+						hasChildren={
+							isHighlighted && person.children?.length > 0
+						}
+						onPersonClick={handlePersonClick}
+						onPersonHover={handlePersonHover}
+						onPersonLeave={handlePersonLeave}
+					/>
+				);
+			})}
+		</div>
+	);
 
-		const isSelected = person.id === treeState.selectedPersonId;
-		const isHighlighted =
-			treeState.highlightedAncestors.has(person.id) ||
-			treeState.highlightedDescendants.has(person.id);
+	const renderTree = (generation: Person[]): React.ReactElement[] => {
+		if (!generation.length) return [];
 
-		// Show spouse only if this person or their ancestors/descendants are selected
-		const showSpouse = isSelected || isHighlighted;
-
-		nodes.push(
-			<TreeNode
-				key={person.id}
-				person={person}
-				isSelected={isSelected}
-				isHighlighted={isHighlighted}
-				showSpouse={showSpouse}
-				onPersonClick={handlePersonClick}
-				onPersonHover={handlePersonHover}
-				onPersonLeave={handlePersonLeave}
-			/>
+		const rows: React.ReactElement[] = [];
+		rows.push(renderTreeRow(generation));
+		const highlightedChild = generation.find((p) =>
+			treeState.highlightedPersons.some((path) =>
+				isIndexEqual(path, p.index)
+			)
 		);
 
-		if (person.children) {
-			person.children.forEach((child) => {
-				nodes.push(...renderTreeNodes(child));
-			});
+		if (highlightedChild?.children?.length) {
+			rows.push(...renderTree(highlightedChild.children));
 		}
 
-		return nodes;
+		return rows;
 	};
 
-	const selectedPerson = treeState.selectedPersonId
-		? findPersonById(positionedTree, treeState.selectedPersonId)
+	const selectedPerson = treeState.activePersonIndex
+		? findPersonByIndex(indexedTree, treeState.activePersonIndex)
 		: null;
 
 	return (
 		<div className="w-full h-screen bg-gray-50 dark:bg-gray-900 relative overflow-auto">
-			{/* Clear Selection Button */}
+			{/* Clear Selection */}
 			<div className="absolute top-4 left-4 z-20">
 				<button
-					type="button"
 					onClick={clearSelection}
 					className="px-3 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
 				>
@@ -131,30 +148,14 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 				</button>
 			</div>
 
-			{/* Tree Container */}
+			{/* Tree */}
 			<div ref={containerRef} className="w-full h-full relative">
-				<div
-					className="relative mx-auto"
-					style={{
-						width: `${dimensions.width}px`,
-						height: `${dimensions.height}px`,
-					}}
-				>
-					{/* Connectors */}
-					<TreeConnectors
-						rootPerson={positionedTree}
-						width={dimensions.width}
-						height={dimensions.height}
-					/>
-
-					{/* Nodes */}
-					<div className="relative z-10">
-						{renderTreeNodes(positionedTree)}
-					</div>
+				<div className="z-10 w-full h-full flex flex-col justify-start items-center mt-8">
+					{renderTree([indexedTree])}
 				</div>
 			</div>
 
-			{/* Selected Person Details Panel */}
+			{/* Details panel */}
 			{selectedPerson && (
 				<div className="absolute top-4 right-4 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-20">
 					<h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
@@ -163,32 +164,36 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 					<div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
 						<p>
 							<strong>Generation:</strong>{" "}
-							{selectedPerson.generation + 1}
+							{selectedPerson.index!.length}
 						</p>
 						{selectedPerson.spouse && (
 							<p>
 								<strong>Spouse:</strong> {selectedPerson.spouse}
 							</p>
 						)}
-						{selectedPerson.children &&
-							selectedPerson.children.length > 0 && (
-								<p>
-									<strong>Children:</strong>{" "}
-									{selectedPerson.children.length}
-								</p>
-							)}
+						{!!selectedPerson.children?.length && (
+							<p>
+								<strong>Children:</strong>{" "}
+								{selectedPerson.children.length}
+							</p>
+						)}
+						{!!selectedPerson.children?.length && (
+							<p>
+								<strong>Descendents:</strong>{" "}
+								{getDescendants(selectedPerson).length}
+							</p>
+						)}
 						<p className="mt-3 text-xs italic">
-							Click another person to explore their family
-							connections, or click Clear Selection to clear
-							selection.
+							Click another person to explore their connections,
+							or “Clear Selection” to start over.
 						</p>
 					</div>
 				</div>
 			)}
 
-			{/* Instructions */}
+			{/* Footer instructions */}
 			<div className="absolute bottom-4 left-4 right-4 text-center text-sm text-gray-600 dark:text-gray-400 z-20">
-				<p>Click on family members to highlight their connections</p>
+				Click on family members to highlight their connections
 			</div>
 		</div>
 	);
