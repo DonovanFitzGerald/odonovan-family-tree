@@ -1,4 +1,4 @@
-import { Person } from "./types";
+import { Person, UnindexedPerson } from "./types";
 
 /**
  * Compare two index paths safely.
@@ -18,7 +18,7 @@ export function isIndexEqual(
  * sibling position to its parent's index.
  */
 export function assignIndex(
-	person: Person,
+	person: UnindexedPerson,
 	parentIndex: number[] = [],
 	siblingIdx = 0
 ): Person {

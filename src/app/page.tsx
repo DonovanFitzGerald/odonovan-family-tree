@@ -1,9 +1,9 @@
 import FamilyTree from "@/components/FamilyTree";
-import { Person } from "@/lib/types";
+import { UnindexedPerson } from "@/lib/types";
 import { promises as fs } from "fs";
 import path from "path";
 
-async function getFamilyData(): Promise<Person> {
+async function getFamilyData(): Promise<UnindexedPerson> {
 	try {
 		const filePath = path.join(process.cwd(), "data", "family.json");
 		const fileContents = await fs.readFile(filePath, "utf8");

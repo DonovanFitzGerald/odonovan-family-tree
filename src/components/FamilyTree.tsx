@@ -1,6 +1,6 @@
 "use client";
-import React, { useState, useRef, useMemo } from "react";
-import { Person, TreeState } from "@/lib/types";
+import React, { useState, useRef, useMemo, useLayoutEffect } from "react";
+import { Person, TreeState, UnindexedPerson } from "@/lib/types";
 import {
 	assignIndex,
 	isIndexEqual,
@@ -13,7 +13,7 @@ import {
 import TreeNode from "./TreeNode";
 
 interface FamilyTreeProps {
-	familyData: Person;
+	familyData: UnindexedPerson;
 }
 
 export default function FamilyTree({ familyData }: FamilyTreeProps) {
@@ -135,6 +135,8 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 	const selectedPerson = treeState.activePersonIndex
 		? findPersonByIndex(indexedTree, treeState.activePersonIndex)
 		: null;
+
+	useLayoutEffect(() => {}, []);
 
 	return (
 		<div className="w-full h-screen bg-gray-50 dark:bg-gray-900 relative overflow-auto">

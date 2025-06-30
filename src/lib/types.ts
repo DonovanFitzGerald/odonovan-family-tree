@@ -1,19 +1,21 @@
+export interface UnindexedPerson extends Omit<Person, "index"> {}
+
 export interface Person {
-	index?: number[];
+	index: number[];
 	first_name: string;
-	nickname: string;
-	last_name: string;
+	nickname: string | null;
+	last_name: string | null;
 	spouse?: string | null;
 	birth?: {
-		date: string;
-		location: string;
+		date: string | null;
+		location: string | null;
 	};
 	death?: {
-		date: string;
-		location: string;
+		date: string | null;
+		location: string | null;
 	};
-	background_color?: string;
-	text_color?: string;
+	background_color?: string | null;
+	text_color?: string | null;
 	children?: Person[];
 }
 
