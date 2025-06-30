@@ -133,17 +133,8 @@ export function getDisplayName(person: Person, personActive = false): string {
 		  }`.trim();
 }
 
-type Relationship = {
-	american: string;
-	irish: string;
-};
-
-export interface RelateResult {
-	personA: Relationship; // A ➜ B
-	personB: Relationship; // B ➜ A
-}
-
 type RelationshipStrings = { american: string; irish: string };
+
 export interface RelateResult {
 	personA: RelationshipStrings; // how A calls B
 	personB: RelationshipStrings; // how B calls A

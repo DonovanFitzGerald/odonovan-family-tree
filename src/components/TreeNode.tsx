@@ -1,6 +1,6 @@
 "use client";
 
-import { Person } from "@/lib/types";
+import { Person, Index } from "@/lib/types";
 import { getDisplayName } from "@/lib/treeUtils";
 import clsx from "clsx";
 

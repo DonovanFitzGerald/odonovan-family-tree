@@ -15,6 +15,7 @@ async function getFamilyData(): Promise<UnindexedPerson> {
 			first_name: "Family Data",
 			nickname: "",
 			last_name: "Not Found",
+			gender: "neutral" as const,
 			children: [],
 		};
 	}
