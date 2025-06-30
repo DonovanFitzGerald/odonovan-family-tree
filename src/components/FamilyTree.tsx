@@ -21,8 +21,6 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 
 	const indexedTree = useMemo(() => assignIndex(familyData), [familyData]);
 
-	console.log(indexedTree);
-
 	const rootIndex = indexedTree.index!; // always [0]
 	const initialAncestors = getHighlightedAncestors(rootIndex); // [] for root
 	const initialDescendants = getHighlightedDescendants(indexedTree);
@@ -103,7 +101,7 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 						isSelected={isSelected}
 						isHighlighted={isHighlighted}
 						hasChildren={
-							isHighlighted && person.children?.length > 0
+							isHighlighted && (person.children?.length ?? 0) > 0
 						}
 						onPersonClick={handlePersonClick}
 						onPersonHover={handlePersonHover}

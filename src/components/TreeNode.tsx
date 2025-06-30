@@ -26,8 +26,8 @@ export default function TreeNode({
 	const displayName = getDisplayName(person, hasChildren);
 
 	const style = {
-		backgroundColor: person.background_color,
-		color: person.text_color,
+		backgroundColor: person.background_color || undefined,
+		color: person.text_color || undefined,
 	};
 
 	return (

@@ -1,4 +1,4 @@
-export interface UnindexedPerson extends Omit<Person, "index"> {}
+export type UnindexedPerson = Omit<Person, "index">;
 
 export interface Person {
 	index: number[];
@@ -17,6 +17,13 @@ export interface Person {
 	background_color?: string | null;
 	text_color?: string | null;
 	children?: Person[];
+}
+
+export interface PositionedPerson extends Person {
+	x: number;
+	y: number;
+	id: string;
+	children?: PositionedPerson[];
 }
 
 export interface TreeState {
