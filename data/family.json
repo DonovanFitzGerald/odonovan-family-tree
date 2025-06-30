@@ -3,6 +3,7 @@
 	"nickname": "",
 	"last_name": "O'Donovan",
 	"spouse": "",
+	"gender": "male",
 	"birth": { "date": "", "location": "" },
 	"death": { "date": "", "location": "" },
 	"background_color": "white",
@@ -13,6 +14,7 @@
 			"nickname": "",
 			"last_name": "O'Donovan",
 			"spouse": "Ellen O'Neill",
+			"gender": "male",
 			"birth": { "date": "", "location": "" },
 			"death": { "date": "", "location": "" },
 			"background_color": "",
@@ -23,6 +25,7 @@
 					"nickname": "Con",
 					"last_name": "O'Donovan",
 					"spouse": "Agnes Monks",
+					"gender": "male",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
 					"background_color": "#5fdb49",
@@ -33,6 +36,7 @@
 							"nickname": "",
 							"last_name": "O'Donovan",
 							"spouse": "Annette McEvoy",
+							"gender": "male",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
 							"background_color": "",
@@ -43,6 +47,7 @@
 									"nickname": "",
 									"last_name": "O'Donovan",
 									"spouse": "Andria O'Neill",
+									"gender": "male",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -53,6 +58,7 @@
 											"nickname": "",
 											"last_name": "O'Donovan",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -70,6 +76,7 @@
 											"nickname": "",
 											"last_name": "O'Donovan",
 											"spouse": "",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -87,6 +94,7 @@
 											"nickname": "",
 											"last_name": "O'Donovan",
 											"spouse": "",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -106,6 +114,7 @@
 									"nickname": "",
 									"last_name": "O'Donovan",
 									"spouse": "Geraldine Ryan",
+									"gender": "male",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -116,6 +125,7 @@
 											"nickname": "",
 											"last_name": "O'Donovan",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -133,6 +143,7 @@
 											"nickname": "",
 											"last_name": "O'Donovan",
 											"spouse": "Elaine Brown",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -150,6 +161,7 @@
 											"nickname": "",
 											"last_name": "O'Donovan",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -169,6 +181,7 @@
 									"nickname": "",
 									"last_name": "",
 									"spouse": "Rosalind Arscott",
+									"gender": "male",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -179,6 +192,7 @@
 											"nickname": "",
 											"last_name": "Arscott",
 											"spouse": "Ana Pollo",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -195,6 +209,7 @@
 													"nickname": "",
 													"last_name": "",
 													"spouse": "",
+													"gender": "female",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -212,6 +227,7 @@
 													"nickname": "",
 													"last_name": "",
 													"spouse": "",
+													"gender": "male",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -231,6 +247,7 @@
 											"nickname": "Ben",
 											"last_name": "Arscott",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -250,6 +267,7 @@
 									"nickname": "",
 									"last_name": "",
 									"spouse": "",
+									"gender": "male",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -260,6 +278,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "Jen",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -276,6 +295,7 @@
 													"nickname": "",
 													"last_name": "",
 													"spouse": "",
+													"gender": "female",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -295,6 +315,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "Caelainn",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -311,6 +332,7 @@
 													"nickname": "",
 													"last_name": "",
 													"spouse": "",
+													"gender": "male",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -330,6 +352,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -347,6 +370,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -366,6 +390,7 @@
 									"nickname": "Barry",
 									"last_name": "",
 									"spouse": "Clare Troy",
+									"gender": "male",
 									"birth": {
 										"date": "",
 										"location": ""
@@ -382,6 +407,7 @@
 											"nickname": "",
 											"last_name": "Troy-O'Donovan",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -399,6 +425,7 @@
 											"nickname": "",
 											"last_name": "Troy-O'Donovan",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -416,6 +443,7 @@
 											"nickname": "",
 											"last_name": "Troy-O'Donovan",
 											"spouse": "",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -435,6 +463,7 @@
 									"nickname": "",
 									"last_name": "",
 									"spouse": "James Harpur",
+									"gender": "female",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -445,6 +474,7 @@
 											"nickname": "",
 											"last_name": "Harpur",
 											"spouse": "",
+											"gender": "neutral",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -464,6 +494,7 @@
 									"nickname": "",
 									"last_name": "",
 									"spouse": "Noreen O'Brien",
+									"gender": "male",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -474,6 +505,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -491,6 +523,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -508,6 +541,7 @@
 											"nickname": "",
 											"last_name": "",
 											"spouse": "",
+											"gender": "male",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -529,6 +563,7 @@
 							"nickname": "Nell",
 							"last_name": "O'Donovan",
 							"spouse": "James Gatens",
+							"gender": "female",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
 							"background_color": "",
@@ -539,6 +574,7 @@
 									"nickname": "",
 									"last_name": "Gatens",
 									"spouse": "Stephen Cooper",
+									"gender": "female",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -549,6 +585,7 @@
 											"nickname": "",
 											"last_name": "Cooper",
 											"spouse": "Cristian Gomez",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -565,6 +602,7 @@
 													"nickname": "",
 													"last_name": "Cooper",
 													"spouse": "Cristian Gomez",
+													"gender": "male",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -582,6 +620,7 @@
 													"nickname": "",
 													"last_name": "Cooper",
 													"spouse": "Cristian Gomez",
+													"gender": "male",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -599,6 +638,7 @@
 													"nickname": "",
 													"last_name": "Cooper",
 													"spouse": "Cristian Gomez",
+													"gender": "male",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -618,6 +658,7 @@
 											"nickname": "Katie",
 											"last_name": "Cooper",
 											"spouse": "Jacob (Jake) Eanes",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -634,6 +675,7 @@
 													"nickname": "",
 													"last_name": "Eanes",
 													"spouse": "",
+													"gender": "female",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -653,6 +695,7 @@
 											"nickname": "",
 											"last_name": "Cooper",
 											"spouse": "",
+											"gender": "female",
 											"birth": {
 												"date": "",
 												"location": ""
@@ -669,6 +712,7 @@
 													"nickname": "",
 													"last_name": "Cooper",
 													"spouse": "",
+													"gender": "female",
 													"birth": {
 														"date": "",
 														"location": ""
@@ -690,6 +734,7 @@
 									"nickname": "",
 									"last_name": "Gatens",
 									"spouse": "James Gatens",
+									"gender": "female",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -701,6 +746,7 @@
 									"nickname": "",
 									"last_name": "Gatens",
 									"spouse": "James Gatens",
+									"gender": "female",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -712,6 +758,7 @@
 									"nickname": "",
 									"last_name": "Gatens",
 									"spouse": "James Gatens",
+									"gender": "female",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -723,6 +770,7 @@
 									"nickname": "",
 									"last_name": "Gatens",
 									"spouse": "James Gatens",
+									"gender": "female",
 									"birth": { "date": "", "location": "" },
 									"death": { "date": "", "location": "" },
 									"background_color": "",
@@ -736,6 +784,7 @@
 							"nickname": "",
 							"last_name": "O'Donovan",
 							"spouse": "",
+							"gender": "female",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
 							"background_color": "",
@@ -747,6 +796,7 @@
 							"nickname": "",
 							"last_name": "O'Donovan",
 							"spouse": "",
+							"gender": "male",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
 							"background_color": "",
@@ -758,6 +808,7 @@
 							"nickname": "",
 							"last_name": "O'Donovan",
 							"spouse": "",
+							"gender": "male",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
 							"background_color": "",
@@ -769,6 +820,7 @@
 							"nickname": "",
 							"last_name": "O'Donovan",
 							"spouse": "",
+							"gender": "male",
 							"birth": { "date": "", "location": "" },
 							"death": { "date": "", "location": "" },
 							"background_color": "",
@@ -782,6 +834,7 @@
 					"nickname": "",
 					"last_name": "O'Donovan",
 					"spouse": "",
+					"gender": "female",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
 					"background_color": "#e56565",
@@ -793,6 +846,7 @@
 					"nickname": "",
 					"last_name": "O'Donovan",
 					"spouse": "",
+					"gender": "male",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
 					"background_color": "#5bacda",
@@ -804,6 +858,7 @@
 					"nickname": "",
 					"last_name": "O'Donovan",
 					"spouse": "",
+					"gender": "male",
 					"birth": { "date": "", "location": "" },
 					"death": { "date": "", "location": "" },
 					"background_color": "#f29d2b",

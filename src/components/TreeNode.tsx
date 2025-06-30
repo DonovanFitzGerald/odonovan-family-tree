@@ -9,8 +9,8 @@ interface TreeNodeProps {
 	isSelected: boolean;
 	isHighlighted: boolean;
 	hasChildren: boolean;
-	onPersonClick: (personIndex: number[]) => void;
-	onPersonHover: (personIndex: number[], event: React.MouseEvent) => void;
+	onPersonClick: (personIndex: Index) => void;
+	onPersonHover: (personIndex: Index, event: React.MouseEvent) => void;
 	onPersonLeave: () => void;
 }
 

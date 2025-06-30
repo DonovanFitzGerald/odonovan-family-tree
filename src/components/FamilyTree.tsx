@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useRef, useMemo, useLayoutEffect } from "react";
-import { Person, TreeState, UnindexedPerson } from "@/lib/types";
+import { Index, Person, TreeState, UnindexedPerson } from "@/lib/types";
 import {
 	assignIndex,
 	isIndexEqual,
 	findPersonByIndex,
 	getHighlightedAncestors,
 	getHighlightedDescendants,
+	relate,
 } from "@/lib/treeUtils";
 import TreeNode from "./TreeNode";
 import PersonDetailsCard from "./PersonDetailsCard";
@@ -39,7 +40,7 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 		tooltipPosition: { x: 0, y: 0 },
 	}));
 
-	const handlePersonClick = (personIndex: number[]) => {
+	const handlePersonClick = (personIndex: Index) => {
 		const person = findPersonByIndex(indexedTree, personIndex);
 		if (!person) return;
 
@@ -62,7 +63,7 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 		}));
 	};
 
-	const handlePersonHover = (_: number[], event: React.MouseEvent) => {
+	const handlePersonHover = (_: Index, event: React.MouseEvent) => {
 		const rect = containerRef.current?.getBoundingClientRect();
 		if (!rect) return;
 
@@ -236,6 +237,14 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 						onClick={() => handleCardClick("primary")}
 						active={treeState.activeSelection === "primary"}
 					/>
+					<p>
+						{primarySelectedPerson &&
+							secondarySelectedPerson &&
+							relate(
+								primarySelectedPerson,
+								secondarySelectedPerson
+							).personA.irish}
+					</p>
 					<PersonDetailsCard
 						person={secondarySelectedPerson}
 						onClick={() => handleCardClick("secondary")}
