@@ -33,11 +33,12 @@ export function assignIndex(
 				{
 					...child,
 					background_color:
-						child.text_color === ""
+						child.background_color == null ||
+						child.background_color === ""
 							? person.background_color
 							: child.background_color,
 					text_color:
-						child.text_color === ""
+						child.text_color == null || child.text_color === ""
 							? person.text_color
 							: child.text_color,
 				},
@@ -117,6 +118,24 @@ export function getHighlightedDescendants(person: Person): number[][] {
 }
 
 /**
+ * Build consecutive parent-child pairs from an ordered list of active indexes.
+ *
+ * @example
+ *   makeRelationPairs([[0], [0,2], [0,2,0]]);
+ *   → [ { parent:[0],   child:[0,2]   },
+ *       { parent:[0,2], child:[0,2,0] } ]
+ */
+export function makeRelationPairs(
+	active: number[]
+): { parent: number[]; child: number[] }[] {
+	const pairs: { parent: number[]; child: number[] } = [];
+	for (let i = 0; i < active.length - 1; i++) {
+		pairs.push({ parent: active[i], child: active[i + 1] });
+	}
+	return pairs;
+}
+
+/**
  * Utility helpers for UI.
  */
 export function formatPersonName(person: Person): string {
@@ -126,8 +145,11 @@ export function formatPersonName(person: Person): string {
 }
 
 export function getDisplayName(person: Person, personActive = false): string {
-	const name = formatPersonName(person);
 	return personActive && person.spouse
-		? `${name} and ${person.spouse}`
-		: name;
+		? `${person.first_name ?? ""} ${
+				person.nickname ? `(${person.nickname}) ` : ""
+		  }${person.last_name ?? ""} and ${person.spouse}`
+		: `${person.first_name ?? ""} ${
+				person.nickname ? `(${person.nickname}) ` : ""
+		  }`.trim();
 }
