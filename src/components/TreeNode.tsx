@@ -44,13 +44,15 @@ export default function TreeNode({
 
 			<div
 				className={clsx(
-					"cursor-pointer transition-all duration-200",
-					"rounded-lg shadow-md px-1 py-1  inline-block",
-					"text-center font-medium",
-					"transition-all duration-200 mx-2",
+					"cursor-pointer transition-transform duration-200",
+					"rounded-lg shadow-md py-1 mx-3 px-2 inline-block border-2 text-s",
+					"text-center ",
+					"transition-all duration-200 ",
 					"whitespace-nowrap",
 					isSelected && "border-black",
-					isHighlighted ? "text-s" : " text-s"
+					isHighlighted
+						? "scale-110  border-transparent font-semibold"
+						: " border-transparent font-medium"
 				)}
 				style={style}
 				onClick={() => onPersonClick(person.index)}
