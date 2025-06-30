@@ -25,42 +25,40 @@ export default function TreeNode({
 }: TreeNodeProps) {
 	const displayName = getDisplayName(person, hasChildren);
 
-	const backgroundColor = person.background_color
-		? `bg-${person.background_color}`
-		: "bg-white dark:bg-gray-800";
-	const textColor = person.text_color
-		? `text-${person.text_color}`
-		: "text-black dark:text-white";
+	const style = {
+		backgroundColor: person.background_color,
+		color: person.text_color,
+	};
 
 	return (
-		<div className="group">
+		<div className="group" id={person.index?.join("-")}>
 			<div className="flex group-first:justify-end">
 				<div className="h-1 w-1/2 bg-white group-first:w-0"></div>
 				<div className="h-1 w-1/2 bg-white group-last:w-0"></div>
 			</div>
-			<div className="h-5 w-1 bg-white m-auto mt-[-4]"></div>
+
+			<div className={`h-5 m-auto mt-[-4px] bg-white w-1`}></div>
+
 			<div
 				className={clsx(
 					"cursor-pointer transition-all duration-200",
-					"rounded-lg shadow-md px-1 py-1 border-2 inline-block",
+					"rounded-lg shadow-md px-1 py-1  inline-block",
 					"text-center font-medium",
-					"transition-all duration-200",
+					"transition-all duration-200 mx-2",
 					"whitespace-nowrap",
-					backgroundColor,
-					textColor,
 					isSelected && "border-black",
-					isHighlighted
-						? "border-gray-500 text-xl"
-						: "border-gray-500 text-s"
+					isHighlighted ? "text-xl px-2 font-extrabold" : " text-s"
 				)}
+				style={style}
 				onClick={() => onPersonClick(person.index)}
 				onMouseEnter={(e) => onPersonHover(person.index, e)}
 				onMouseLeave={onPersonLeave}
 			>
 				{displayName}
 			</div>
+
 			{isHighlighted && hasChildren && (
-				<div className="h-8 w-1 bg-white m-auto"></div>
+				<div className="h-8 w-1 m-auto bg-white"></div>
 			)}
 		</div>
 	);
