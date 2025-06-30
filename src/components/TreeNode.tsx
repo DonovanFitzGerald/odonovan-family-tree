@@ -31,7 +31,10 @@ export default function TreeNode({
 	};
 
 	return (
-		<div className="group" id={person.index?.join("-")}>
+		<div
+			className={clsx("group", isHighlighted ? "active" : "")}
+			id={person.index?.join("-")}
+		>
 			<div className="flex group-first:justify-end">
 				<div className="h-1 w-1/2 bg-white group-first:w-0"></div>
 				<div className="h-1 w-1/2 bg-white group-last:w-0"></div>
@@ -47,7 +50,7 @@ export default function TreeNode({
 					"transition-all duration-200 mx-2",
 					"whitespace-nowrap",
 					isSelected && "border-black",
-					isHighlighted ? "text-xl px-2 font-extrabold" : " text-s"
+					isHighlighted ? "text-s" : " text-s"
 				)}
 				style={style}
 				onClick={() => onPersonClick(person.index)}
