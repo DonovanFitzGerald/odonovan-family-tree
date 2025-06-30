@@ -4,13 +4,12 @@ import { Person, TreeState, UnindexedPerson } from "@/lib/types";
 import {
 	assignIndex,
 	isIndexEqual,
-	getDisplayName,
 	findPersonByIndex,
 	getHighlightedAncestors,
 	getHighlightedDescendants,
-	getDescendants,
 } from "@/lib/treeUtils";
 import TreeNode from "./TreeNode";
+import PersonDetailsCard from "./PersonDetailsCard";
 
 interface FamilyTreeProps {
 	familyData: UnindexedPerson;
@@ -26,7 +25,9 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 	const initialDescendants = getHighlightedDescendants(indexedTree);
 
 	const [treeState, setTreeState] = useState<TreeState>(() => ({
-		activePersonIndex: rootIndex,
+		primarySelectedPersonIndex: rootIndex,
+		secondarySelectedPersonIndex: rootIndex,
+		activeSelection: "primary",
 		highlightedAncestors: initialAncestors,
 		highlightedDescendants: initialDescendants,
 		highlightedPersons: [
@@ -45,9 +46,16 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 		const ancestors = getHighlightedAncestors(personIndex);
 		const descendants = getHighlightedDescendants(person);
 
+		console.log(
+			treeState.activeSelection,
+			treeState.secondarySelectedPersonIndex
+		);
+
 		setTreeState((prev) => ({
 			...prev,
-			activePersonIndex: personIndex,
+			[prev.activeSelection === "primary"
+				? "primarySelectedPersonIndex"
+				: "secondarySelectedPersonIndex"]: personIndex,
 			highlightedAncestors: ancestors,
 			highlightedDescendants: descendants,
 			highlightedPersons: [...ancestors, personIndex, ...descendants],
@@ -71,14 +79,30 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 	const handlePersonLeave = () =>
 		setTreeState((prev) => ({ ...prev, showTooltip: false }));
 
-	const clearSelection = () =>
+	const handleCardClick = (selection: "primary" | "secondary") => {
+		if (treeState.activeSelection === selection) return;
+
+		const personIndex =
+			selection === "primary"
+				? treeState.primarySelectedPersonIndex
+				: treeState.secondarySelectedPersonIndex;
+
+		if (!personIndex) return;
+
+		const person = findPersonByIndex(indexedTree, personIndex);
+		if (!person) return;
+
+		const ancestors = getHighlightedAncestors(personIndex);
+		const descendants = getHighlightedDescendants(person);
+
 		setTreeState((prev) => ({
 			...prev,
-			activePersonIndex: null,
-			highlightedAncestors: [],
-			highlightedDescendants: [],
-			highlightedPersons: [],
+			activeSelection: selection,
+			highlightedAncestors: ancestors,
+			highlightedDescendants: descendants,
+			highlightedPersons: [...ancestors, personIndex, ...descendants],
 		}));
+	};
 
 	const renderTreeRow = (siblings: Person[]): React.ReactElement => (
 		<div
@@ -90,9 +114,13 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 				const isHighlighted = treeState.highlightedPersons.some(
 					(path) => isIndexEqual(path, person.index)
 				);
+				const activePersonIndex =
+					treeState.activeSelection === "primary"
+						? treeState.primarySelectedPersonIndex
+						: treeState.secondarySelectedPersonIndex;
 				const isSelected = isIndexEqual(
 					person.index,
-					treeState.activePersonIndex
+					activePersonIndex
 				);
 
 				return (
@@ -131,8 +159,12 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 		return rows;
 	};
 
-	const selectedPerson = treeState.activePersonIndex
-		? findPersonByIndex(indexedTree, treeState.activePersonIndex)
+	const primarySelectedPerson = treeState.primarySelectedPersonIndex
+		? findPersonByIndex(indexedTree, treeState.primarySelectedPersonIndex)
+		: null;
+
+	const secondarySelectedPerson = treeState.secondarySelectedPersonIndex
+		? findPersonByIndex(indexedTree, treeState.secondarySelectedPersonIndex)
 		: null;
 
 	useLayoutEffect(() => {
@@ -188,17 +220,7 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 	}, [treeState]);
 
 	return (
-		<div className="w-full h-screen bg-gray-50 dark:bg-gray-900 relative overflow-auto">
-			{/* Clear Selection */}
-			<div className="absolute top-4 left-4 z-20">
-				<button
-					onClick={clearSelection}
-					className="px-3 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-				>
-					Clear Selection
-				</button>
-			</div>
-
+		<div className="w-full h-screen bg-gray-50 dark:bg-gray-900 relative overflow-auto flex flex-col">
 			{/* Tree */}
 			<div ref={containerRef} className="w-full h-full relative">
 				<div className="z-10 w-full h-full flex flex-col justify-start items-center mt-8">
@@ -206,45 +228,25 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 				</div>
 			</div>
 
-			{/* Details panel */}
-			{selectedPerson && (
-				<div className="absolute top-4 right-4 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 z-20">
-					<h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
-						{getDisplayName(selectedPerson)}
-					</h3>
-					<div className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
-						<p>
-							<strong>Generation:</strong>{" "}
-							{selectedPerson.index!.length}
-						</p>
-						{selectedPerson.spouse && (
-							<p>
-								<strong>Spouse:</strong> {selectedPerson.spouse}
-							</p>
-						)}
-						{!!selectedPerson.children?.length && (
-							<p>
-								<strong>Children:</strong>{" "}
-								{selectedPerson.children.length}
-							</p>
-						)}
-						{!!selectedPerson.children?.length && (
-							<p>
-								<strong>Descendents:</strong>{" "}
-								{getDescendants(selectedPerson).length}
-							</p>
-						)}
-						<p className="mt-3 text-xs italic">
-							Click another person to explore their connections,
-							or “Clear Selection” to start over.
-						</p>
-					</div>
+			{/* Dual Person Details Cards */}
+			<div className="z-20 w-full flex flex-col p-4 justify-center items-center">
+				<div className="flex gap-4 mb-4 max-w-4xl h-64">
+					<PersonDetailsCard
+						person={primarySelectedPerson}
+						onClick={() => handleCardClick("primary")}
+						active={treeState.activeSelection === "primary"}
+					/>
+					<PersonDetailsCard
+						person={secondarySelectedPerson}
+						onClick={() => handleCardClick("secondary")}
+						active={treeState.activeSelection === "secondary"}
+					/>
 				</div>
-			)}
-
-			{/* Footer instructions */}
-			<div className="absolute bottom-4 left-4 right-4 text-center text-sm text-gray-600 dark:text-gray-400 z-20">
-				Click on family members to highlight their connections
+				{/* Footer instructions */}
+				<div className="text-center text-sm text-gray-600 dark:text-gray-400">
+					Click family members to select • Click cards below to switch
+					active view • Compare two people side by side
+				</div>
 			</div>
 		</div>
 	);

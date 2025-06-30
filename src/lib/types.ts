@@ -27,7 +27,9 @@ export interface PositionedPerson extends Person {
 }
 
 export interface TreeState {
-	activePersonIndex: number[] | null;
+	primarySelectedPersonIndex: number[] | null;
+	secondarySelectedPersonIndex: number[] | null;
+	activeSelection: "primary" | "secondary";
 	highlightedAncestors: number[][] | [];
 	highlightedDescendants: number[][] | [];
 	highlightedPersons: number[][] | [];
