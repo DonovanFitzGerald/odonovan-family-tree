@@ -8,6 +8,7 @@ interface TreeNodeProps {
 	person: Person;
 	isSelected: boolean;
 	isHighlighted: boolean;
+	isSecondarySelected: boolean;
 	hasChildren: boolean;
 	onPersonClick: (personIndex: Index) => void;
 	onPersonHover: (personIndex: Index, event: React.MouseEvent) => void;
@@ -18,6 +19,7 @@ export default function TreeNode({
 	person,
 	isSelected,
 	isHighlighted,
+	isSecondarySelected,
 	hasChildren,
 	onPersonClick,
 	onPersonHover,
@@ -49,10 +51,12 @@ export default function TreeNode({
 					"text-center ",
 					"transition-all duration-200 ",
 					"whitespace-nowrap",
-					isSelected && "border-black",
 					isHighlighted
-						? "scale-110  border-transparent font-semibold"
-						: " border-transparent font-medium"
+						? "scale-110 border-transparent font-semibold"
+						: " border-transparent font-medium",
+					isSecondarySelected &&
+						"ring-2 ring-red-900 dark:ring-red-400",
+					isSelected && "ring-2 ring-blue-500 dark:ring-blue-400"
 				)}
 				style={style}
 				onClick={() => onPersonClick(person.index)}

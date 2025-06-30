@@ -7,10 +7,10 @@ import {
 	findPersonByIndex,
 	getHighlightedAncestors,
 	getHighlightedDescendants,
-	relate,
 } from "@/lib/treeUtils";
 import TreeNode from "./TreeNode";
 import PersonDetailsCard from "./PersonDetailsCard";
+import RelationshipDisplay from "./RelationshipDisplay";
 
 interface FamilyTreeProps {
 	familyData: UnindexedPerson;
@@ -130,6 +130,12 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 						person={person}
 						isSelected={isSelected}
 						isHighlighted={isHighlighted}
+						isSecondarySelected={isIndexEqual(
+							person.index,
+							treeState.activeSelection === "secondary"
+								? treeState.primarySelectedPersonIndex
+								: treeState.secondarySelectedPersonIndex
+						)}
 						hasChildren={
 							isHighlighted && (person.children?.length ?? 0) > 0
 						}
@@ -231,20 +237,20 @@ export default function FamilyTree({ familyData }: FamilyTreeProps) {
 
 			{/* Dual Person Details Cards */}
 			<div className="z-20 w-full flex flex-col p-4 justify-center items-center">
+				{/* Person Details Cards */}
 				<div className="flex gap-4 mb-4 max-w-4xl h-64">
 					<PersonDetailsCard
 						person={primarySelectedPerson}
 						onClick={() => handleCardClick("primary")}
 						active={treeState.activeSelection === "primary"}
 					/>
-					<p>
-						{primarySelectedPerson &&
-							secondarySelectedPerson &&
-							relate(
-								primarySelectedPerson,
-								secondarySelectedPerson
-							).personA.irish}
-					</p>
+
+					{/* Relationship Display */}
+					<RelationshipDisplay
+						primaryPerson={primarySelectedPerson}
+						secondaryPerson={secondarySelectedPerson}
+					/>
+
 					<PersonDetailsCard
 						person={secondarySelectedPerson}
 						onClick={() => handleCardClick("secondary")}

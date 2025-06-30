@@ -143,122 +143,146 @@ export interface RelateResult {
 	personB: Relationship; // B ➜ A
 }
 
+type RelationshipStrings = { american: string; irish: string };
+export interface RelateResult {
+	personA: RelationshipStrings; // how A calls B
+	personB: RelationshipStrings; // how B calls A
+	lcaIndex: Index; // path of their closest common ancestor
+}
+
+/* ───────── tiny helpers ───────── */
+
 const ord = (n: number) =>
-	n === 1 ? "first" : n === 2 ? "second" : n === 3 ? "third" : `${n}th`;
+	[
+		"first",
+		"second",
+		"third",
+		"fourth",
+		"fifth",
+		"sixth",
+		"seventh",
+		"eighth",
+		"ninth",
+		"tenth",
+	][n - 1] ?? `${n}th`;
 
 const repeat = (s: string, n: number) => Array(n).fill(s).join("");
 
-const pick = (g: Gender, male: string, female: string, neutral: string) =>
-	g === "male" ? male : g === "female" ? female : neutral;
+const pick = (g: Gender, m: string, f: string, n: string) =>
+	g === "male" ? m : g === "female" ? f : n;
 
-/**
- * How are “A” and “B” related?
- *
- * @param aPath  index path for person A  (e.g. [0,2,1])
- * @param bPath  index path for person B
- * @param genderA  gender of A  ("male" | "female" | "neutral")
- * @param genderB  gender of B
- */
+/* ───────── main API ───────── */
+
 export function relate(personA: Person, personB: Person): RelateResult {
-	const aPath = personA.index!;
-	const bPath = personB.index!;
-	const genderA = personA.gender;
-	const genderB = personB.gender;
+	const aPath = personA.index;
+	const bPath = personB.index;
+	const gA = personA.gender;
+	const gB = personB.gender;
 
-	/* 1. lowest common ancestor depth */
-	let i = 0;
-	while (i < aPath.length && i < bPath.length && aPath[i] === bPath[i]) i++;
-	const upA = aPath.length - i;
-	const upB = bPath.length - i;
+	/* 1 ─ Lowest-common-ancestor depth & slice */
+	let split = 0;
+	while (
+		split < aPath.length &&
+		split < bPath.length &&
+		aPath[split] === bPath[split]
+	)
+		split++;
 
-	/* 2. build American terms */
-	const amA = americanTerm(upA, upB, genderB);
-	const amB = americanTerm(upB, upA, genderA);
+	const lcaIndex = aPath.slice(0, split); // may be [] if unrelated
+	const upA = aPath.length - split; // steps A → LCA
+	const upB = bPath.length - split; // steps B → LCA
 
-	/* 3. translate to Irish usage where it differs */
-	const irA = irishTerm(amA, upA, upB, genderB);
-	const irB = irishTerm(amB, upB, upA, genderA);
+	/* 2 ─ relationship strings */
+	const americanA = american(upA, upB, gB);
+	const americanB = american(upB, upA, gA);
+	const irishA = irish(americanA, upA, upB, gB);
+	const irishB = irish(americanB, upB, upA, gA);
 
 	return {
-		personA: { american: amA, irish: irA },
-		personB: { american: amB, irish: irB },
+		personA: { american: americanA, irish: irishA },
+		personB: { american: americanB, irish: irishB },
+		lcaIndex,
 	};
 }
 
-function americanTerm(
-	upSelf: number,
-	upOther: number,
-	genderOther: Gender
-): string {
-	/* direct descendant ------------------------------------------ */
-	if (upSelf === 0) {
-		if (upOther === 0) return "self";
+/* ───────── American canon ───────── */
 
-		if (upOther === 1) return pick(genderOther, "son", "daughter", "child");
+function american(upSelf: number, upOther: number, gOther: Gender): string {
+	/* self = ancestor / descendant / self */
+	if (upSelf === 0) return descendant(upOther, gOther);
+	if (upOther === 0) return ancestor(upSelf, gOther);
 
-		if (upOther === 2)
-			return pick(genderOther, "grandson", "granddaughter", "grandchild");
-
-		const prefix = repeat("great-", upOther - 2);
-		return pick(
-			genderOther,
-			`${prefix}grandson`,
-			`${prefix}granddaughter`,
-			`${prefix}grandchild`
-		);
-	}
-
-	/* direct ancestor -------------------------------------------- */
-	if (upOther === 0) {
-		if (upSelf === 1)
-			return pick(genderOther, "father", "mother", "parent");
-
-		if (upSelf === 2)
-			return pick(
-				genderOther,
-				"grandfather",
-				"grandmother",
-				"grandparent"
-			);
-
-		const prefix = repeat("great-", upSelf - 2);
-		return pick(
-			genderOther,
-			`${prefix}grandfather`,
-			`${prefix}grandmother`,
-			`${prefix}grandparent`
-		);
-	}
-
-	/* same generation -------------------------------------------- */
+	/* siblings & cousins share the same depth to LCA */
 	if (upSelf === upOther) {
-		if (upSelf === 1)
-			return pick(genderOther, "brother", "sister", "sibling");
-
-		const degree = upSelf - 1; // 1 → first cousin …
-		return `${ord(degree)} cousin`;
+		if (upSelf === 1) return pick(gOther, "brother", "sister", "sibling");
+		return `${ord(upSelf - 1)} cousin`;
 	}
 
-	/* cousins removed -------------------------------------------- */
-	const cousinDeg = Math.min(upSelf, upOther) - 1;
-	const removed = Math.abs(upSelf - upOther);
-	return `${ord(cousinDeg)} cousin ${ord(removed)} removed`;
+	/* direct collateral line (aunt/uncle ↔ niece/nephew) */
+	const closer = Math.min(upSelf, upOther);
+	const away = Math.max(upSelf, upOther);
+	const diff = away - closer;
+
+	if (closer === 1) {
+		// one side is a child of the LCA
+		const greats = diff - 1; // 0 → aunt/uncle; 1 → great-aunt …
+		const elder = upSelf < upOther; // elder ⇒ aunt/uncle
+		const base = elder
+			? pick(gOther, "uncle", "aunt", "aunt / uncle")
+			: pick(gOther, "nephew", "niece", "nephew / niece");
+		return `${repeat("great-", greats)}${base}`;
+	}
+
+	/* everybody else = cousins removed */
+	const degree = closer - 1; // first / second …
+	const removed = diff; // once / twice removed …
+	return `${ord(degree)} cousin ${ord(removed)} removed`;
 }
 
-/* Irish usage tweaks for two “removed” cases */
-function irishTerm(
-	am: string,
+/* direct-line helpers ---------------------------------------------------- */
+const ancestor = (steps: number, g: Gender) => {
+	if (steps === 1) return pick(g, "father", "mother", "parent");
+	if (steps === 2)
+		return pick(g, "grandfather", "grandmother", "grandparent");
+	const prefix = repeat("great-", steps - 2);
+	return pick(
+		g,
+		`${prefix}grandfather`,
+		`${prefix}grandmother`,
+		`${prefix}grandparent`
+	);
+};
+
+const descendant = (steps: number, g: Gender) => {
+	if (steps === 0) return "self";
+	if (steps === 1) return pick(g, "son", "daughter", "child");
+	if (steps === 2) return pick(g, "grandson", "granddaughter", "grandchild");
+	const prefix = repeat("great-", steps - 2);
+	return pick(
+		g,
+		`${prefix}grandson`,
+		`${prefix}granddaughter`,
+		`${prefix}grandchild`
+	);
+};
+
+/* ───────── Irish tweaks ───────── */
+
+function irish(
+	us: string,
 	upSelf: number,
 	upOther: number,
-	genderOther: Gender
+	gOther: Gender
 ): string {
-	// Parent's cousin  (A↑1, B↑2)  →  aunt / uncle
-	if (upSelf === 1 && upOther === 2)
-		return pick(genderOther, "uncle", "aunt", "aunt / uncle");
+	/* Parent’s cousin / cousin’s child differences */
+	const closer = Math.min(upSelf, upOther);
+	const diff = Math.abs(upSelf - upOther);
 
-	// Cousin's child   (A↑2, B↑1)  →  nephew / niece
-	if (upSelf === 2 && upOther === 1)
-		return pick(genderOther, "nephew", "niece", "nephew / niece");
-
-	return am; // otherwise identical
+	if (diff === 1 && closer >= 2) {
+		// first-cousin-once-removed cases
+		return upSelf < upOther
+			? pick(gOther, "uncle", "aunt", "aunt / uncle")
+			: pick(gOther, "nephew", "niece", "nephew / niece");
+	}
+	return us; // all other terms are identical
 }
